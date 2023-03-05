@@ -11,11 +11,12 @@ Route::get('/', function () {
 });
 
 //authentication
-
-Route::get('expenses', [GreetingsController::class, 'greet']);
 Route::post('register', [AuthController::class, 'register']);
+Route::put("update_accaunt", [AuthController::class, 'updateAccount']);
+
 
 //todos
+Route::put("update_todo/{id}", [TodosController::class, 'updateTodo']);
 Route::post('/create_todo', [TodosController::class, 'createTodo']);
 Route::delete("/delete_todo/{id}", [TodosController::class, 'deleteTodo']);
 Route::get("/get_todo/{id}", [TodosController::class, "getTodoById"]);

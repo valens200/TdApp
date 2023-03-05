@@ -38,6 +38,8 @@ class TodosController extends Controller
       return response()->json($th->getMessage(), 500);
     }
   }
+
+  //getting all todos by todo Owner
   public function getTodoById(Request $request)
   {
     try {
@@ -51,6 +53,8 @@ class TodosController extends Controller
       echo "Error : " . $e->getMessage();
     }
   }
+
+  //getting a todo by owner
   public function getTodoByOwner(Request $request)
   {
     try {
@@ -64,5 +68,25 @@ class TodosController extends Controller
       echo "Error : " . $e->getMessage();
     }
 
+  }
+
+  public function updateTodo(Request $request)
+  {
+    try {
+      $data = $request->all();
+      $fields = array($request->all()['owner'], $request->all()['activity']);
+      for ($i = 0; $i < count($fields); $i++) {
+        if (!$fields[$i] || $fields[$i] == "") {
+          return response()->json("Error : Please all fields are required!", 400);
+        }
+      }
+      if (DB::table("todos")->where("id", $request->id)->update(['owner' => $fields[0], 'activity' => $fields[1]])) {
+        return response()->json("Todo list updated successfully", 200);
+      } else {
+        return response()->json("Error: please make sure that you make a change to the todo!");
+      }
+    } catch (Exception $e) {
+      echo "Error : " . $e->getMessage();
+    }
   }
 }
